@@ -1,0 +1,20 @@
+body {
+    background-color: #343a40;
+}
+
+table tr {
+    cursor: pointer;
+}
+
+.log-data {
+    color: #ffffff;
+    border-top: solid 2px;
+    border-color: #555555;
+    padding-top: 5px;
+}
+
+#log-list {
+    padding-right: 0px;
+    border-right: solid 2px;
+    border-right-color: #555555;
+}

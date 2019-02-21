@@ -3,58 +3,38 @@
 <div th:replace="header :: header"></div>
 <body>
 
-<!--Nav Bar-->
-<div th:replace="nav :: nav"></div>
+    <!--Nav Bar-->
+    <div th:replace="nav :: nav"></div>
 
-<!--Log body-->
-<div class="jumbotron">
+    <!--Log list-->
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div id="log-list" class="col-sm-3">
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Modified</th>
+                        <th scope="col">Size</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="log-item" th:each="log : ${logs}" th:id="${log.path}">
+                        <td th:utext="${log.name}"></td>
+                        <td th:utext="${log.size}"></td>
+                        <td th:utext="${log.modified}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Logs</a>
-                </li>
-                <li class="nav-item" th:each="log : ${logs}">
-                    <a class="nav-link log-item" href="#" th:id="${log.path}" th:utext="${log.name + ' (' + log.size + ')'}"></a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <p class="card-text">Choose a log file</p>
+            <!--Log body-->
+            <div class="log-data col bg-dark">
+                Select a log file
+            </div>
         </div>
     </div>
 
-</div>
-
 </body>
 
-<!--Move this-->
-<script>
-    $(document).ready(function () {
-
-        $('.nav-link').on('click', function () {
-            $('.nav-link').removeClass('active');
-            $(this).toggleClass('active')
-        });
-
-        $(".log-item").click(function (event) {
-            var logPath = event.target.id;
-            $.ajax({
-                url: '/log',
-                type: 'POST',
-                data: {"path": logPath},
-                dataType: 'json',
-                success: function (log) {
-                    $('.card-text').text(log.data);
-                },
-                error: function (error) {
-
-                }
-            });
-
-        });
-
-    });
-</script>
 </html>

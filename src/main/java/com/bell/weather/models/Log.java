@@ -14,6 +14,8 @@ public class Log {
 
 	private String name;
 
+	private String modified;
+
 	public String getPath() {
 		return path;
 	}
@@ -47,6 +49,15 @@ public class Log {
 
 	public Log setData(final String data) {
 		this.data = data;
+		return this;
+	}
+
+	public String getModified() {
+		return modified;
+	}
+
+	public Log setModified(String modified) {
+		this.modified = modified;
 		return this;
 	}
 }
