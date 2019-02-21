@@ -12,37 +12,32 @@
     <div class="card text-center">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Logs</a>
+                </li>
                 <li class="nav-item" th:each="log : ${logs}">
-                    <a class="nav-link active log-item" href="#" th:id="${log.path}" th:utext="${log.name}"></a>
+                    <a class="nav-link log-item" href="#" th:id="${log.path}" th:utext="${log.name + ' (' + log.size + ')'}"></a>
                 </li>
             </ul>
         </div>
         <div class="card-body">
-            <p class="card-text"></p>
-
-        </div>
-    </div>
-
-    <div class=" row">
-        <div th:each="log : ${logs}">
-            <div class="card log-item" style="width: 18rem; margin-right: 10px;">
-                <h5 class="card-header" th:utext="${log.name}"></h5>
-                <div class="card-body">
-                    <h5 class="card-title" th:utext="${log.size}"></h5>
-                    <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
+            <p class="card-text">Choose a log file</p>
         </div>
     </div>
 
 </div>
 
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
+<!--Move this-->
 <script>
     $(document).ready(function () {
+
+        $('.nav-link').on('click', function () {
+            $('.nav-link').removeClass('active');
+            $(this).toggleClass('active')
+        });
+
         $(".log-item").click(function (event) {
             var logPath = event.target.id;
             $.ajax({
