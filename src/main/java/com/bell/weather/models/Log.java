@@ -6,7 +6,7 @@ public class Log {
 
     private String path;
 
-    private long size;
+    private String size;
 
     private String name;
 
@@ -19,11 +19,11 @@ public class Log {
         return this;
     }
 
-    public long getSize() {
+    public String getSize() {
         return size;
     }
 
-    public Log setSize(final long size) {
+    public Log setSize(final String size) {
         this.size = size;
         return this;
     }

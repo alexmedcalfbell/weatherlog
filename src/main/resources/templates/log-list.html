@@ -13,24 +13,23 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item" th:each="log : ${logs}">
-                    <a class="nav-link active" href="#" th:utext="${log.name}"></a>
+                    <a class="nav-link active log-item" href="#" th:id="${log.path}" th:utext="${log.name}"></a>
                 </li>
             </ul>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <p class="card-text"></p>
+
         </div>
     </div>
 
-    <div class="row">
+    <div class=" row">
         <div th:each="log : ${logs}">
             <div class="card log-item" style="width: 18rem; margin-right: 10px;">
                 <h5 class="card-header" th:utext="${log.name}"></h5>
                 <div class="card-body">
                     <h5 class="card-title" th:utext="${log.size}"></h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text"></p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
@@ -44,16 +43,15 @@
 
 <script>
     $(document).ready(function () {
-        $(".log-item").click(function () {
-            var logPath = $(this).text();
+        $(".log-item").click(function (event) {
+            var logPath = event.target.id;
             $.ajax({
                 url: '/log',
                 type: 'POST',
                 data: {"path": logPath},
                 dataType: 'json',
-                success: function (data1) {
-
-
+                success: function (log) {
+                    $('.card-text').text(log.data);
                 },
                 error: function (error) {
 

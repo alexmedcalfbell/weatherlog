@@ -34,7 +34,7 @@ public class LogsController {
     }
 
     //TODO: Rework all this horrible nav stuff, do a single page app
-    @PostMapping("/log")
+    @PostMapping("/logold")
     public String getStats(@RequestParam("path") final String logPath, final Model model) throws IOException {
 
         model.addAttribute("log", logService.readLog(logPath));

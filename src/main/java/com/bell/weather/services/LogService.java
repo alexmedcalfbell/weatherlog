@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,12 @@ public class LogService {
     private String logDirectory;
 
     public Log readLog(final String logPath) throws IOException {
+        System.out.println("LOG PATH: [" + logPath + "]");
         final Path path = fileSystem.getPath(logPath);
         try (final Stream<String> lines = Files.lines(path)) {
-            return new Log().setData(lines.collect(Collectors.joining("<br>")));
+            return new Log().setData(
+                    lines.collect(Collectors.joining(
+                            "<br>"))); //TODO: this should read into a list as it'll be a csv. No need for BR
         }
     }
 
@@ -44,9 +48,11 @@ public class LogService {
         //final Path logDirectory = fileSystem.getPath(logDirectory)
         try (final Stream<Path> paths = Files.walk(Paths.get(this.logDirectory))) {
             return paths.filter(Files::isRegularFile)
-                    .map(log -> new Log().setName(log.getFileName().toString()).setPath(
-                            log.toAbsolutePath().toString()).setSize(log.toFile().length())).collect(
-                            Collectors.toList());
+                    .map(log -> new Log()
+                            .setName(log.getFileName().toString())
+                            .setPath(log.toAbsolutePath().toString())
+                            .setSize(FileUtils.byteCountToDisplaySize(log.toFile().length())))
+                    .collect(Collectors.toList());
         }
     }
     //TODO: Ability to read multiple files in a directory and return the list to the controller which could potentially be displayed in cards
