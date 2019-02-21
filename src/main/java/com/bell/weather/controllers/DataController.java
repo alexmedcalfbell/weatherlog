@@ -2,7 +2,7 @@ package com.bell.weather.controllers;
 
 import java.io.IOException;
 
-import com.bell.weather.models.Log;
+import com.bell.weather.models.LogOld;
 import com.bell.weather.services.LogService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DataController {
 	}
 
 	@PostMapping("/log")
-	public Log readLog(@RequestParam("path") final String logPath) throws IOException {
+	public LogOld readLog(@RequestParam("path") final String logPath) throws IOException {
 		return logService.readLog(logPath);
 	}
 	//    public List<String> getReadLogPaths() throws IOException {

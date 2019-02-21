@@ -2,62 +2,74 @@ package com.bell.weather.models;
 
 /**
  * Models a log file.
+ *
  * @author Alexander Medcalf-Bell
  */
 public class Log {
 
-	private String data;
+	private String light;
 
-	private String path;
+	private String rgb;
 
-	private String size;
+	private String motion;
 
-	private String name;
+	private String heading;
 
-	private String modified;
+	private String temperature;
 
-	public String getPath() {
-		return path;
+	private String pressure;
+
+	public String getLight() {
+		return light;
 	}
 
-	public Log setPath(final String path) {
-		this.path = path;
+	public Log setLight(String light) {
+		this.light = light;
 		return this;
 	}
 
-	public String getSize() {
-		return size;
+	public String getRgb() {
+		return rgb;
 	}
 
-	public Log setSize(final String size) {
-		this.size = size;
+	public Log setRgb(String rgb) {
+		this.rgb = rgb;
 		return this;
 	}
 
-	public String getName() {
-		return name;
+	public String getMotion() {
+		return motion;
 	}
 
-	public Log setName(final String name) {
-		this.name = name;
+	public Log setMotion(String motion) {
+		this.motion = motion;
 		return this;
 	}
 
-	public String getData() {
-		return this.data;
+	public String getHeading() {
+		return heading;
 	}
 
-	public Log setData(final String data) {
-		this.data = data;
+	public Log setHeading(String heading) {
+		this.heading = heading;
 		return this;
 	}
 
-	public String getModified() {
-		return modified;
+	public String getTemperature() {
+		return temperature;
 	}
 
-	public Log setModified(String modified) {
-		this.modified = modified;
+	public Log setTemperature(String temperature) {
+		this.temperature = temperature;
+		return this;
+	}
+
+	public String getPressure() {
+		return pressure;
+	}
+
+	public Log setPressure(String pressure) {
+		this.pressure = pressure;
 		return this;
 	}
 }
