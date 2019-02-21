@@ -1,20 +1,30 @@
 $(document).ready(function () {
 
-    $(".log-item").click(function (event) {
+    // Handle click event for a log item row
+    // loads Datatables using ajax with the logPath of the clicked log item.
+    $(".log-item").click(function () {
         var logPath = $(this).closest('tr').attr('id');
-        $.ajax({
-            url: '/log',
-            type: 'POST',
-            data: {"path": logPath},
-            dataType: 'json',
-            success: function (log) {
-                $('.log-data').text(log.data);
+
+        $('#log-table').DataTable({
+            destroy: true,
+            processing: true,
+            serverSide: false,
+            lengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
+            ajax: {
+                type: 'POST',
+                url: '/log',
+                data: {'path': logPath},
+                dataSrc: ''
             },
-            error: function (error) {
-
-            }
+            columns: [
+                {data: 'light', defaultContent: '-'},
+                {data: 'rgb', defaultContent: '-'},
+                {data: 'motion', defaultContent: '-'},
+                {data: 'heading', defaultContent: '-'},
+                {data: 'temperature', defaultContent: '-'},
+                {data: 'pressure', defaultContent: '-'}
+            ]
         });
-
     });
 
 });

@@ -3,37 +3,50 @@
 <div th:replace="header :: header"></div>
 <body>
 
-    <!--Nav Bar-->
-    <div th:replace="nav :: nav"></div>
+<!--Nav Bar-->
+<div th:replace="nav :: nav"></div>
 
-    <!--Log list-->
-    <div class="container-fluid h-100">
-        <div class="row h-100">
-            <div id="log-list" class="col col-md-auto">
-                <table class="table table-dark table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Modified</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="log-item" th:each="log : ${logs}" th:id="${log.path}">
-                        <td th:utext="${log.name}"></td>
-                        <td th:utext="${log.size}"></td>
-                        <td th:utext="${log.modified}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!--Log body-->
-            <div class="log-data col bg-dark">
-                Select a log file
-            </div>
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        
+        <!--Logs list-->
+        <div id="log-list" class="col col-md-auto">
+            <table class="table table-dark table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="log-item" th:each="log : ${logs}" th:id="${log.path}">
+                    <td th:utext="${log.name}"></td>
+                    <td th:utext="${log.size}"></td>
+                    <td th:utext="${log.modified}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+
+        <!--Log Table-->
+        <div class="log-data col bg-dark">
+            <table id="log-table" class="table table-dark table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Light</th>
+                    <th>RGB</th>
+                    <th>Motion</th>
+                    <th>Heading</th>
+                    <th>Temperature</th>
+                    <th>Pressure</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
     </div>
+</div>
 
 </body>
 

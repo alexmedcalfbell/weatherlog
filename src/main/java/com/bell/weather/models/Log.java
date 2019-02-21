@@ -7,69 +7,58 @@ package com.bell.weather.models;
  */
 public class Log {
 
-	private String light;
+    private String data;
 
-	private String rgb;
+    private String path;
 
-	private String motion;
+    private String size;
 
-	private String heading;
+    private String name;
 
-	private String temperature;
+    private String modified;
 
-	private String pressure;
+    public String getPath() {
+        return path;
+    }
 
-	public String getLight() {
-		return light;
-	}
+    public Log setPath(final String path) {
+        this.path = path;
+        return this;
+    }
 
-	public Log setLight(String light) {
-		this.light = light;
-		return this;
-	}
+    public String getSize() {
+        return size;
+    }
 
-	public String getRgb() {
-		return rgb;
-	}
+    public Log setSize(final String size) {
+        this.size = size;
+        return this;
+    }
 
-	public Log setRgb(String rgb) {
-		this.rgb = rgb;
-		return this;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getMotion() {
-		return motion;
-	}
+    public Log setName(final String name) {
+        this.name = name;
+        return this;
+    }
 
-	public Log setMotion(String motion) {
-		this.motion = motion;
-		return this;
-	}
+    public String getData() {
+        return this.data;
+    }
 
-	public String getHeading() {
-		return heading;
-	}
+    public Log setData(final String data) {
+        this.data = data;
+        return this;
+    }
 
-	public Log setHeading(String heading) {
-		this.heading = heading;
-		return this;
-	}
+    public String getModified() {
+        return modified;
+    }
 
-	public String getTemperature() {
-		return temperature;
-	}
-
-	public Log setTemperature(String temperature) {
-		this.temperature = temperature;
-		return this;
-	}
-
-	public String getPressure() {
-		return pressure;
-	}
-
-	public Log setPressure(String pressure) {
-		this.pressure = pressure;
-		return this;
-	}
+    public Log setModified(final String modified) {
+        this.modified = modified;
+        return this;
+    }
 }
