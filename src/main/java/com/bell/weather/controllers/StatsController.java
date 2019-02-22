@@ -26,8 +26,9 @@ public class StatsController {
     @GetMapping
     public String config(final Model model) {
 
-        return "stats";
+        model.addAttribute("log", logService.readLog("/Users/abell/Documents/weather/enviroLONDONtoPETERBOROUGH.log"));
 
+        return "stats";
     }
 
     //TODO: config page

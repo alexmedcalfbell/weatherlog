@@ -1,8 +1,10 @@
 package com.bell.weather.controllers;
 
+import java.util.List;
+
 import com.bell.weather.models.LogData;
 import com.bell.weather.services.LogService;
-import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,18 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DataController {
 
-    private final LogService logService;
+	private final LogService logService;
 
-    @Autowired
-    public DataController(final LogService logService) {
-        this.logService = logService;
-    }
+	@Autowired
+	public DataController(final LogService logService) {
+		this.logService = logService;
+	}
 
-    @PostMapping(
-            value = "/log",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public List<LogData> readLog(@RequestParam("path") final String logPath) {
-        return logService.readLog(logPath);
-    }
+	@PostMapping(value = "/log", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<LogData> readLog(@RequestParam("path") final String logPath) {
+		return logService.readLog(logPath);
+	}
+
 }

@@ -6,12 +6,7 @@
 <!--Nav Bar-->
 <div th:replace="nav :: nav"></div>
 
-<div class="card settings bg-dark">
-    <h5 class="card-header">Statistics</h5>
-    <div class="card-body">
-        STATS
-    </div>
-</div>
+<div class="alert alert-danger alert-dismissible show" role="alert" th:utext="${error}"></div>
 
 </body>
 
