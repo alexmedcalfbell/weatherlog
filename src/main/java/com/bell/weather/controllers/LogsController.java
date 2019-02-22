@@ -30,4 +30,6 @@ public class LogsController {
     }
 
     //TODO: Could just have a settimeout in js to call a the datatables event?
+
+    //TODO: Try graphing library e.g. https://www.chartjs.org/
 }
