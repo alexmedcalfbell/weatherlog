@@ -9,7 +9,7 @@ $(document).ready(function () {
             destroy: true,
             processing: true,
             serverSide: false,
-            lengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
+            lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "All"]],
             ajax: {
                 type: 'POST',
                 url: '/log',
