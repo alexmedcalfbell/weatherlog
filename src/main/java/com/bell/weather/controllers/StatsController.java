@@ -1,6 +1,5 @@
 package com.bell.weather.controllers;
 
-import com.bell.weather.exceptions.PathNotConfiguredException;
 import com.bell.weather.services.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,24 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Alexander Medcalf-Bell
  */
 @Controller
-@RequestMapping({"/", "logs"})
-public class LogsController {
+@RequestMapping({"/stats"})
+public class StatsController {
 
     private final LogService logService;
 
     @Autowired
-    public LogsController(final LogService logService) {
+    public StatsController(final LogService logService) {
         this.logService = logService;
     }
 
     @GetMapping
-    public String getLogs(final Model model) {
-        try {
-            model.addAttribute("logs", logService.getLogs());
-        } catch (final PathNotConfiguredException e) {
-            return "config";
-        }
-        return "log-list";
+    public String config(final Model model) {
+
+        return "stats";
+
     }
 
     //TODO: config page

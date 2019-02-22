@@ -27,4 +27,20 @@ $(document).ready(function () {
         });
     });
 
+    $(".save").click(function () {
+        var logPath = $('#log-path').val();
+        storeLogPath(logPath);
+    });
+
+    function storeLogPath(logPath) {
+        if (typeof (Storage) !== "undefined") {
+            // Store
+            localStorage.setItem("logPath", logPath);
+
+            $('.alert').addClass('show');
+        }
+    }
+
+    $('#log-path').val(localStorage.getItem("logPath"));
+
 });

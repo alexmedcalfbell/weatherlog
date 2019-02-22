@@ -1,5 +1,6 @@
 package com.bell.weather.services;
 
+import com.bell.weather.exceptions.PathNotConfiguredException;
 import com.bell.weather.models.Log;
 import com.bell.weather.models.LogData;
 import com.fasterxml.jackson.databind.MappingIterator;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +45,13 @@ public class LogService {
      * @return List of {@link Log}
      */
     public List<Log> getLogs() {
+        //TODO: Read the path from the local storage var
+
+        if (StringUtils.isEmpty(logDirectory)) {
+            LOGGER.error("Log directory path has not been set");
+            throw new PathNotConfiguredException();
+        }
+
         LOGGER.info("Reading logs at path [{}]", logDirectory);
 
         try (final Stream<Path> paths = Files.walk(Paths.get(logDirectory))) {
