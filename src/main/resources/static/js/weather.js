@@ -26,4 +26,6 @@ $(document).ready(function () {
             ]
         });
     });
+
+    // setTimeout(explode, 2000);
 });

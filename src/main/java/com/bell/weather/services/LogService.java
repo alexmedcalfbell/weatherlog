@@ -17,6 +17,10 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.monitor.FileAlterationListener;
+import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
+import org.apache.commons.io.monitor.FileAlterationMonitor;
+import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +53,12 @@ public class LogService {
 	public List<Log> getLogs() {
 
 		validateLogsPath();
+
+//		try {
+//			monitorLogs();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		LOGGER.info("Reading logs at path [{}]", logDirectory);
 
@@ -83,13 +93,14 @@ public class LogService {
 		try {
 			final CsvSchema csvSchema = CsvSchema
 					.builder()
+					.setSkipFirstDataRow(true)
+					.setColumnSeparator('\t') //use spaces instead of commas
 					.addColumn("light")
 					.addColumn("rgb")
 					.addColumn("motion")
 					.addColumn("heading")
 					.addColumn("temperature")
 					.addColumn("pressure")
-					.setSkipFirstDataRow(true)
 					.build();
 
 			final MappingIterator<LogData> readValues = csvMapper
@@ -104,6 +115,36 @@ public class LogService {
 		}
 	}
 
+
+	private void monitorLogs() throws Exception {
+
+
+		FileAlterationListener listener = new FileAlterationListenerAdaptor() {
+			@Override
+			public void onFileCreate(File file) {
+				getLogs();
+				LOGGER.info("File: " + file.getName() + " created");
+			}
+
+			@Override
+			public void onFileDelete(File file) {
+				LOGGER.info("File: " + file.getName() + " deleted");
+			}
+
+			@Override
+			public void onFileChange(File file) {
+				LOGGER.info("File: " + file.getName() + " changed");
+			}
+		};
+		FileAlterationObserver observer = new FileAlterationObserver(logDirectory);
+		observer.addListener(listener);
+		FileAlterationMonitor monitor = new FileAlterationMonitor(500); //TODO: make env var
+		monitor.addObserver(observer);
+		monitor.start();
+	}
+	/**
+	 * Validate that the provided log path is valid / is a directory / isn't empty.
+	 */
 	public void validateLogsPath() {
 
 		if (StringUtils.isEmpty(logDirectory)) {
