@@ -27,3 +27,13 @@ table tr {
 .settings {
     color: #ffffff;
 }
+
+.table-options {
+    margin-bottom: 10px;
+}
+
+#update-interval {
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+}
