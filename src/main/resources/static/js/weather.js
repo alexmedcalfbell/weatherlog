@@ -4,7 +4,20 @@ $(document).ready(function () {
     // loads Datatables using ajax with the logPath of the clicked log item.
     $(".log-item").click(function () {
         var logPath = $(this).closest('tr').attr('id');
+        loadLogTable(logPath);
 
+        pollLog(logPath);
+    });
+
+    function pollLog(logPath) {
+        var logPoll = setInterval(function () {
+
+            console.log('loading log');
+            loadLogTable('C:\\Users\\alexanderbell\\Desktop\\weather\\enviroLONDONtoPETERBOROUGH.log')
+        }, 3000);
+    }
+
+    function loadLogTable(logPath) {
         $('#log-table').DataTable({
             destroy: true,
             processing: true,
@@ -25,7 +38,7 @@ $(document).ready(function () {
                 {data: 'pressure', defaultContent: '-'}
             ]
         });
-    });
+    }
 
     // setTimeout(explode, 2000);
 });
