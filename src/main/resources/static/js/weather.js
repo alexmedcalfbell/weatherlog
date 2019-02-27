@@ -95,10 +95,9 @@ $(document).ready(function () {
                 {data: 'light', defaultContent: '-'},
                 {
                     data: 'rgb', defaultContent: '-',
-                    render: function (data, type, row) {
-                        // Wrap RGB in a span with the hex equivalent of the RGB as background
+                    createdCell: function (td, data) {
                         const rgb = data.split(',');
-                        return '<span style="padding: 4px; background-color:' + rgbToHex(Number(rgb[0]), Number(rgb[1]), Number(rgb[2])) + ';">' + data + '</span>';
+                        $(td).css('background-color', rgbToHex(Number(rgb[0]), Number(rgb[1]), Number(rgb[2])));
                     }
                 },
                 {data: 'motion', defaultContent: '-'},
