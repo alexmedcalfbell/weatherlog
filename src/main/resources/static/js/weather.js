@@ -7,6 +7,10 @@ $(document).ready(function () {
 
     //TODO: store lengthMenu val / page number
 
+    function rgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
     // Read / set the auto update checkbox if present
     if (localStorage.getItem("autoUpdate")) {
         $("#auto-update").prop('checked', true);
@@ -89,7 +93,14 @@ $(document).ready(function () {
             },
             columns: [
                 {data: 'light', defaultContent: '-'},
-                {data: 'rgb', defaultContent: '-'},
+                {
+                    data: 'rgb', defaultContent: '-',
+                    render: function (data, type, row) {
+                        // Wrap RGB in a span with the hex equivalent of the RGB as background
+                        const rgb = data.split(',');
+                        return '<span style="padding: 4px; background-color:' + rgbToHex(Number(rgb[0]), Number(rgb[1]), Number(rgb[2])) + ';">' + data + '</span>';
+                    }
+                },
                 {data: 'motion', defaultContent: '-'},
                 {data: 'heading', defaultContent: '-'},
                 {data: 'temperature', defaultContent: '-'},
