@@ -24,15 +24,9 @@ public class StatsController {
     }
 
     @GetMapping
-    public String config(final Model model) {
-
-        model.addAttribute("log", logService.readLog("/Users/abell/Documents/weather/enviroLONDONtoPETERBOROUGH.log"));
-
+    public String stats(final Model model) {
+        model.addAttribute("logs", logService.getLogs());
         return "stats";
     }
 
-    //TODO: config page
-    //TODO: Could just have a settimeout in js to call a the datatables event?
-
-    //TODO: Try graphing library e.g. https://www.chartjs.org/
 }

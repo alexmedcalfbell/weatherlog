@@ -92,6 +92,13 @@ $(document).ready(function () {
                 dataSrc: ''
             },
             columns: [
+                {
+                    visible: false,
+                    targets: [0],
+                    render: function (data, type, row, meta) {
+                        return meta.row;
+                    }
+                },
                 {data: 'light', defaultContent: '-'},
                 {
                     data: 'rgb', defaultContent: '-',
