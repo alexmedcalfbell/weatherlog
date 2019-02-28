@@ -1,12 +1,5 @@
 package com.bell.weather.models;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.thymeleaf.util.StringUtils;
-
 /**
  * Models a log file.
  *
@@ -14,12 +7,21 @@ import org.thymeleaf.util.StringUtils;
  */
 public class LogData {
 
+    private int id;
     private String light;
     private String rgb;
     private String motion;
     private String heading;
     private String temperature;
     private String pressure;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(final int id) {
+        this.id = id;
+    }
 
     public String getLight() {
         return light;
@@ -34,7 +36,7 @@ public class LogData {
         return rgb;
     }
 
-    public LogData setRgb(String rgb) {
+    public LogData setRgb(final String rgb) {
         this.rgb = rgb;
         return this;
     }

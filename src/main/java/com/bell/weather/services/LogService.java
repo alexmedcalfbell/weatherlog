@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
@@ -94,7 +95,12 @@ public class LogService {
                     .with(csvSchema)
                     .readValues(new File(logPath));
 
-            return readValues.readAll();
+            final AtomicInteger counter = new AtomicInteger(0);
+            final List<LogData> logData = readValues.readAll();
+            logData.stream().forEach(l -> l.setId(counter.addAndGet(1)));
+
+            return logData;
+            //return readValues.readAll();
         } catch (final Exception e) {
             LOGGER.error("Failed to read log at path [{}]", logPath, e);
             return Collections.emptyList();

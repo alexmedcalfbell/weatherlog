@@ -5,7 +5,7 @@ $(document).ready(function () {
     let filter;
     let table;
 
-    $('#logs').addClass('active');
+    $('#stats').addClass('active');
 
     //TODO: store lengthMenu val / page number
 
@@ -59,8 +59,7 @@ $(document).ready(function () {
     // loads Datatables using ajax with the logPath of the clicked log item.
     $(".log-item").click(function () {
         logPath = $(this).closest('tr').attr('id');
-        loadLogTable();
-        pollLog();
+        readLog();
     });
 
     // Starts an interval that reloads the datatable
@@ -76,51 +75,40 @@ $(document).ready(function () {
         }
     }
 
-    // Initialise the Datatable for the provided log path.
-    function loadLogTable() {
 
-        table = $('#log-table').DataTable({
-            destroy: true,
-            processing: false,
-            serverSide: false,
-            lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "All"]],
-            oSearch: {
-                sSearch: filter
-            },
-            ajax: {
-                type: 'POST',
-                url: '/log',
-                data: {'path': logPath},
-                dataSrc: ''
-            },
-            columns: [
-                // {
-                //     visible: false,
-                //     targets: [0],
-                //     render: function (data, type, row, meta) {
-                //         return meta.row;
-                //     }
-                // },
-                {data: 'id', defaultContent: '-'},
-                {data: 'light', defaultContent: '-'},
-                {
-                    data: 'rgb', defaultContent: '-',
-                    createdCell: function (td, data) {
-                        const rgb = data.split(',');
-                        $(td).css('background-color', rgbToHex(Number(rgb[0]), Number(rgb[1]), Number(rgb[2])));
-                    }
-                },
-                {data: 'motion', defaultContent: '-'},
-                {data: 'heading', defaultContent: '-'},
-                {data: 'temperature', defaultContent: '-'},
-                {data: 'pressure', defaultContent: '-'}
-            ]
-        });
+    function readLog() {
+        $.ajax({
+            url: '/log',
+            type: 'POST',
+            data: {path: logPath},
+            dataType: 'json',
+            success: function (logs) {
+                let x = [];
+                let y = [];
+                logs.forEach((log) => {
+                    x.push(log.id);
+                    y.push(log.light);
+                });
 
-        // Set the current value of filter so it's preserved when and if the table reloads.
-        table.on('search.dt', function () {
-            filter = $('.dataTables_filter input')[0].value;
+                drawGraph(x, y);
+            },
+            error: function (error) {
+                console.log('Failed to load graph. [ ' + error + ' ]');
+            }
         });
     }
+
+    function drawGraph(x, y) {
+        let lightGraph = document.getElementById('light-graph');
+        Plotly.plot(lightGraph, [{
+            y: y,
+            x: x
+        }], {
+            margin: {t: 0},
+            height: 400,
+            width: 800
+        });
+    }
+
 
 });
