@@ -91,6 +91,7 @@ $(document).ready(function () {
                 });
 
                 drawGraph(x, y);
+                // drawGraph2(x, y);
             },
             error: function (error) {
                 console.log('Failed to load graph. [ ' + error + ' ]');
@@ -98,15 +99,62 @@ $(document).ready(function () {
         });
     }
 
+    //TODO: column layout is causing the height to shrink weirdly when shrinking the page
     function drawGraph(x, y) {
+        var layout = {
+            plot_bgcolor: '#343a40',
+            paper_bgcolor: '#343a40',
+            margin: {
+                t: 0
+            },
+             height: 600,
+            xaxis: {
+                color: '#fff'
+            },
+            yaxis: {
+                color: '#fff'
+            },
+            legendText: {
+              color: '#fff'
+            },
+        };
+        let config = { responsive: true };
+
         let lightGraph = document.getElementById('light-graph');
-        Plotly.plot(lightGraph, [{
-            y: y,
-            x: x
-        }], {
-            margin: {t: 0},
-            height: 400,
-            width: 800
+        Plotly.plot(
+            lightGraph,
+            [{ y: y, x: x }],
+            layout,
+            config
+        );
+    }
+
+    function drawGraph2(x,y){
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: x,
+                datasets: [{
+                    label: '# of Votes',
+                    data: y,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+                plugins: {
+                    colorschemes: {
+                        scheme: 'brewer.Dark2-3'
+                    }
+                }
+            }
         });
     }
 
