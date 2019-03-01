@@ -101,7 +101,7 @@ $(document).ready(function () {
                 //         return meta.row;
                 //     }
                 // },
-                {data: 'id', defaultContent: '-'},
+                {data: 'id', defaultContent: '-', visible: false},
                 {data: 'light', defaultContent: '-'},
                 {
                     data: 'rgb', defaultContent: '-',

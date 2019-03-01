@@ -1,0 +1,17 @@
+<!--Logs list-->
+<table class="table table-dark table-striped table-hover" th:fragment="logs-table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Size</th>
+        <th scope="col">Modified</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="log-item" th:each="log : ${logs}" th:id="${log.path}">
+        <td th:utext="${log.name}"></td>
+        <td th:utext="${log.size}"></td>
+        <td th:utext="${log.modified}"></td>
+    </tr>
+    </tbody>
+</table>

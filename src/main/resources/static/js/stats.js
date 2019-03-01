@@ -83,15 +83,7 @@ $(document).ready(function () {
             data: {path: logPath},
             dataType: 'json',
             success: function (logs) {
-                let x = [];
-                let y = [];
-                logs.forEach((log) => {
-                    x.push(log.id);
-                    y.push(log.light);
-                });
-
-                drawGraph(x, y);
-                // drawGraph2(x, y);
+                drawLightGraph(logs);
             },
             error: function (error) {
                 console.log('Failed to load graph. [ ' + error + ' ]');
@@ -99,64 +91,77 @@ $(document).ready(function () {
         });
     }
 
-    //TODO: column layout is causing the height to shrink weirdly when shrinking the page
-    function drawGraph(x, y) {
-        var layout = {
-            plot_bgcolor: '#343a40',
-            paper_bgcolor: '#343a40',
-            margin: {
-                t: 0
+    let graphLayout = {
+        plot_bgcolor: '#343a40',
+        paper_bgcolor: '#343a40',
+        margin: {
+            t: 0
+        },
+        height: 600,
+        xaxis: {
+            color: '#ffffff'
+        },
+        yaxis: {
+            color: '#ffffff'
+        },
+        legendText: {
+            color: '#ffffff'
+        },
+        legend: {
+            x: 0,
+            y: 1,
+            traceorder: 'normal',
+            font: {
+                family: 'sans-serif',
+                size: 11,
+                color: '#ffffff'
             },
-             height: 600,
-            xaxis: {
-                color: '#fff'
-            },
-            yaxis: {
-                color: '#fff'
-            },
-            legendText: {
-              color: '#fff'
-            },
-        };
-        let config = { responsive: true };
+            bgcolor: '#343a40',
+            bordercolor: '#888888',
+            borderwidth: 1
+        },
+        //TODO: Fix hover text position
+        // hoverlabel: {
+        //     bgcolor: 'lightgrey',
+        //     bordercolor: 'darkgrey',
+        //     font: {
+        //         color: 'blue',
+        //         family: 'Open Sans',
+        //         size: 14,
+        //         padding: 2
+        //     }
+        // }
+    };
 
-        let lightGraph = document.getElementById('light-graph');
+    let graphConfig = {responsive: true};
+
+    //TODO: column layout is causing the height to shrink weirdly when shrinking the page
+    function drawLightGraph(logs) {
+        //Get the log name (any thing after the last back or forward slash
+        const regex = /[^\\\/]+$/;
+        let logName = regex.exec(logPath);
+
+        let x = [];
+        let y = [];
+        logs.forEach((log) => {
+            x.push(log.id);
+            y.push(log.light);
+        });
+        let graphData = [{
+            y: y,
+            x: x,
+            name: '' + logName + '',
+            mode: 'lines+markers',
+            type: 'scatter',
+            showlegend: true
+        }];
+
         Plotly.plot(
-            lightGraph,
-            [{ y: y, x: x }],
-            layout,
-            config
+            $('#light-graph')[0],
+            graphData,
+            graphLayout,
+            graphConfig
         );
     }
-
-    function drawGraph2(x,y){
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: x,
-                datasets: [{
-                    label: '# of Votes',
-                    data: y,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                },
-                plugins: {
-                    colorschemes: {
-                        scheme: 'brewer.Dark2-3'
-                    }
-                }
-            }
-        });
-    }
-
 
 });
