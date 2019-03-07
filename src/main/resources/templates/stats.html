@@ -18,7 +18,10 @@
 
         <!--Light Graph Table-->
         <div class="stat-data col bg-dark">
-            <div id="light-graph"></div>
+            <!--Toolbar-->
+            <div th:replace="stats-toolbar :: stats-toolbar"></div>
+
+            <div id="graph"></div>
         </div>
     </div>
 </div>

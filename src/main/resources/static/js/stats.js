@@ -55,11 +55,17 @@ $(document).ready(function () {
         }
     });
 
+    // On field change from select box
+    $('#graph-field').on('change', function () {
+        Plotly.purge($('#graph')[0]);
+        readLogAndGraph();
+    });
+
     // Handle click event for a log item row
     // loads Datatables using ajax with the logPath of the clicked log item.
     $(".log-item").click(function () {
         logPath = $(this).closest('tr').attr('id');
-        readLog();
+        readLogAndGraph();
     });
 
     // Starts an interval that reloads the datatable
@@ -76,14 +82,14 @@ $(document).ready(function () {
     }
 
 
-    function readLog() {
+    function readLogAndGraph() {
         $.ajax({
             url: '/log',
             type: 'POST',
             data: {path: logPath},
             dataType: 'json',
             success: function (logs) {
-                drawLightGraph(logs);
+                drawGraph(logs, $('#graph-field').val());
             },
             error: function (error) {
                 console.log('Failed to load graph. [ ' + error + ' ]');
@@ -136,32 +142,54 @@ $(document).ready(function () {
     let graphConfig = {responsive: true};
 
     //TODO: column layout is causing the height to shrink weirdly when shrinking the page
-    function drawLightGraph(logs) {
-        //Get the log name (any thing after the last back or forward slash
-        const regex = /[^\\\/]+$/;
-        let logName = regex.exec(logPath);
+    function drawGraph(logs, field) {
 
-        let x = [];
-        let y = [];
-        logs.forEach((log) => {
-            x.push(log.id);
-            y.push(log.light);
-        });
+        const [x, y] = getGraphData(logs, field);
+
         let graphData = [{
             y: y,
             x: x,
-            name: '' + logName + '',
+            name: '' + getLogName() + '',
             mode: 'lines+markers',
             type: 'scatter',
             showlegend: true
         }];
 
         Plotly.plot(
-            $('#light-graph')[0],
+            $('#graph')[0],
             graphData,
             graphLayout,
             graphConfig
         );
+    }
+
+    //TODO Improve
+    function getGraphData(logs, value) {
+        let x = [];
+        let y = [];
+        logs.forEach((log) => {
+            x.push(log.id);
+
+            switch (value) {
+                case 'light':
+                    y.push(log.light);
+                    break;
+                case 'temperature':
+                    y.push(log.temperature);
+                    break;
+                default:
+                    console.log('No value specified [' + value + ']');
+            }
+
+
+        });
+        return [x, y];
+    }
+
+    function getLogName() {
+        //Get the log name (any thing after the last back or forward slash
+        const regex = /[^\\\/]+$/;
+        return regex.exec(logPath);
     }
 
 });
