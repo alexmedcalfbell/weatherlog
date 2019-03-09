@@ -10,13 +10,6 @@ table tr {
     flex-wrap: nowrap;
 }
 
-.log-data {
-    color: #ffffff;
-    border-top: solid 2px;
-    border-color: #555555;
-    padding-top: 5px;
-}
-
 #log-list {
     padding-right: 0px;
     border-right: solid 2px;
@@ -28,8 +21,11 @@ table tr {
     color: #ffffff;
 }
 
-.table-options {
+.toolbar {
     margin-bottom: 10px;
+    color: #ffffff;
+    padding-top: 5px;
+    padding-left: 10px;
 }
 
 #update-interval {
@@ -45,7 +41,7 @@ table tr {
 
 .main-svg {
     width: 100%;
-    padding: 5px;
+    /*padding: 5px;*/
 }
 
 .legendtext {
@@ -53,12 +49,24 @@ table tr {
     fill-opacity: 1 !important;
 }
 
-.stat-data {
+.viewer {
     border-top: solid 2px;
     border-color: #555555;
     padding: 0;
 }
 
+.text-light {
+    color: #ffffff;
+}
+
 .vh-90 {
     height: 90vh !important;
+}
+
+.dataTables_length, .dataTables_info {
+    margin-left: 10px !important;
+}
+
+.dataTables_filter, .pagination {
+    margin-right: 10px !important;
 }

@@ -121,6 +121,8 @@ $(document).ready(function () {
         table.on('search.dt', function () {
             filter = $('.dataTables_filter input')[0].value;
         });
+
+        $("#log-table").css("width", "100%")
     }
 
 });

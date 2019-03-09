@@ -6,12 +6,7 @@ $(document).ready(function () {
     let table;
 
     $('#stats').addClass('active');
-
-    //TODO: store lengthMenu val / page number
-
-    function rgbToHex(r, g, b) {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    }
+    autoUpdateGraph();
 
     // Read / set the auto update checkbox if present
     if (localStorage.getItem("autoUpdate")) {
@@ -39,6 +34,11 @@ $(document).ready(function () {
 
     // Makes the datatable reload the current log at the specified interval
     $("#auto-update").click(function () {
+        autoUpdateGraph();
+    });
+
+    function autoUpdateGraph() {
+        Plotly.purge($('#graph')[0]);
         let checked = $("#auto-update").is(':checked');
         clearInterval(logPoll);
 
@@ -49,11 +49,11 @@ $(document).ready(function () {
             localStorage.removeItem("autoUpdate");
         }
 
-        //reload the Datatable
+        //reload the graph
         if (logPath) {
             pollLog();
         }
-    });
+    }
 
     // On field change from select box
     $('#graph-field').on('change', function () {
@@ -64,37 +64,41 @@ $(document).ready(function () {
     // Handle click event for a log item row
     // loads Datatables using ajax with the logPath of the clicked log item.
     $(".log-item").click(function () {
-        logPath = $(this).closest('tr').attr('id');
-        readLogAndGraph();
+        if (logPath !== $(this).closest('tr').attr('id')) {
+            logPath = $(this).closest('tr').attr('id');
+            readLogAndGraph();
+        }
     });
 
     // Starts an interval that reloads the datatable
     function pollLog() {
-        let autoUpdate = $("#auto-update").is(':checked');
-        if (autoUpdate) {
-            clearInterval(logPoll);
-            logPoll = setInterval(function () {
-                console.log('loading log [' + logPath + ']');
-                loadLogTable(logPath);
-            }, interval ? interval * 1000 : 5000);
-
+        if (logPath) {
+            let autoUpdate = $("#auto-update").is(':checked');
+            if (autoUpdate) {
+                clearInterval(logPoll);
+                logPoll = setInterval(function () {
+                    console.log('loading log [' + logPath + ']');
+                    readLogAndGraph();
+                }, interval ? interval * 1000 : 5000);
+            }
         }
     }
 
-
     function readLogAndGraph() {
-        $.ajax({
-            url: '/log',
-            type: 'POST',
-            data: {path: logPath},
-            dataType: 'json',
-            success: function (logs) {
-                drawGraph(logs, $('#graph-field').val());
-            },
-            error: function (error) {
-                console.log('Failed to load graph. [ ' + error + ' ]');
-            }
-        });
+        if (logPath) {
+            $.ajax({
+                url: '/log',
+                type: 'POST',
+                data: {path: logPath},
+                dataType: 'json',
+                success: function (logs) {
+                    drawGraph(logs, $('#graph-field').val());
+                },
+                error: function (error) {
+                    console.log('Failed to load graph. [ ' + error + ' ]');
+                }
+            });
+        }
     }
 
     let graphLayout = {
@@ -176,6 +180,12 @@ $(document).ready(function () {
                     break;
                 case 'temperature':
                     y.push(log.temperature);
+                    break;
+                case 'heading':
+                    y.push(log.heading);
+                    break;
+                case 'pressure':
+                    y.push(log.pressure);
                     break;
                 default:
                     console.log('No value specified [' + value + ']');
