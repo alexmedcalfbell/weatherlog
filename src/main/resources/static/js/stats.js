@@ -107,7 +107,6 @@ $(document).ready(function () {
         margin: {
             t: 0
         },
-        height: 600,
         xaxis: {
             color: '#ffffff'
         },
@@ -167,6 +166,10 @@ $(document).ready(function () {
         );
     }
 
+    function rgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
     //TODO Improve
     function getGraphData(logs, value) {
         let x = [];
@@ -178,11 +181,18 @@ $(document).ready(function () {
                 case 'light':
                     y.push(log.light);
                     break;
-                case 'temperature':
-                    y.push(log.temperature);
+                case 'rgb':
+                    const rgb = log.rgb.split(',');
+                    y.push(rgbToHex(Number(rgb[0]), Number(rgb[1]), Number(rgb[2])));
+                    break;
+                case 'motion':
+                    y.push(log.motion);
                     break;
                 case 'heading':
                     y.push(log.heading);
+                    break;
+                case 'temperature':
+                    y.push(log.temperature);
                     break;
                 case 'pressure':
                     y.push(log.pressure);
@@ -201,5 +211,6 @@ $(document).ready(function () {
         const regex = /[^\\\/]+$/;
         return regex.exec(logPath);
     }
+
 
 });

@@ -112,7 +112,13 @@ $(document).ready(function () {
                 },
                 {data: 'motion', defaultContent: '-'},
                 {data: 'heading', defaultContent: '-'},
-                {data: 'temperature', defaultContent: '-'},
+                {
+                    data: 'temperature', defaultContent: '-',
+                    createdCell: function (td, data) {
+                        $(td).css('background-color', temperatureToHex(data));
+                        $(td).css('color', '#333333');
+                    }
+                },
                 {data: 'pressure', defaultContent: '-'}
             ]
         });
@@ -122,7 +128,30 @@ $(document).ready(function () {
             filter = $('.dataTables_filter input')[0].value;
         });
 
-        $("#log-table").css("width", "100%")
+        $("#log-table").css("width", "100%");
     }
+
+    //Celsius
+    function temperatureToHex(temperature) {
+        if (temperature < 5) {
+            return '#ffffff';
+        } else if (temperature < 10 && temperature >= 5) {
+            return '#00ffff';
+        } else if (temperature < 15 && temperature >= 10) {
+            return '#66ccff';
+        } else if (temperature < 20 && temperature >= 15) {
+            return '#ffff66';
+        } else if (temperature < 25 && temperature >= 20) {
+            return '#ffcc00';
+        } else if (temperature < 30 && temperature >= 25) {
+            return '#ff9900';
+        } else if (temperature > 30) {
+            return '#ff3300';
+        } else {
+            console.log('Unable to determine color [' + temperature + ']');
+            return '#343a40';
+        }
+    }
+
 
 });
