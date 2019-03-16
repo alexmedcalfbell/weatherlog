@@ -100,7 +100,6 @@ public class LogService {
             logData.stream().forEach(l -> l.setId(counter.addAndGet(1)));
 
             return logData;
-            //return readValues.readAll();
         } catch (final Exception e) {
             LOGGER.error("Failed to read log at path [{}]", logPath, e);
             return Collections.emptyList();
@@ -110,7 +109,7 @@ public class LogService {
     /**
      * Validate that the provided log path is valid / is a directory / isn't empty.
      */
-    public void validateLogsPath() {
+    private void validateLogsPath() {
 
         if (StringUtils.isEmpty(logDirectory)) {
             LOGGER.error("Log directory path does not appear to be set [{}]", logDirectory);
